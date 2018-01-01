@@ -153,13 +153,13 @@ Passing the IPs into the module is done by setting variable `external_nat_ip_ids
 
 
 ## Examples
-* [Simple 2x2 VPC](https://github.com/bmacauley/tf_aws_vpc/tree/master/examples/simple_2x2_vpc)
-* [Simple 3x2 VPC](https://github.com/bmacauley/tf_aws_vpc/tree/master/examples/simple_3x2_vpc)
-* [Complete VPC](https://github.com/bmacauley/tf_aws_vpc/tree/master/examples/complete_vpc)
+* [Simple 2x2 VPC](https://github.com/bmacauley/tf-aws-vpc/tree/master/examples/simple_2x2_vpc)
+* [Simple 3x2 VPC](https://github.com/bmacauley/tf-aws-vpc/tree/master/examples/simple_3x2_vpc)
+* [Complete VPC](https://github.com/bmacauley/tf-aws-vpc/tree/master/examples/complete_vpc)
 
 A few edge case examples...
-* [Asymmetrical VPC](https://github.com/bmacauley/tf_aws_vpc/tree/master/examples/asymmetrical_vpc)
-* [VPC with no private subnets](https://github.com/bmacauley/tf_aws_vpc/tree/master/examples/no_private_subnets_vpc)
+* [Asymmetrical VPC](https://github.com/bmacauley/tf-aws-vpc/tree/master/examples/asymmetrical_vpc)
+* [VPC with no private subnets](https://github.com/bmacauley/tf-aws-vpc/tree/master/examples/no_private_subnets_vpc)
 
 
 ## Authors
