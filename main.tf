@@ -15,17 +15,17 @@ module "vpc" {
   azs  = local.azs
 
   ### public subnets
-  public_subnets                          = local.public_subnets
-  map_public_ip_on_launch                 = local.map_public_ip_on_launch
+  public_subnets          = local.public_subnets
+  map_public_ip_on_launch = local.map_public_ip_on_launch
 
   ### private subnets
-  private_subnets                         = local.private_subnets
+  private_subnets = local.private_subnets
 
   ### database subnets
-  database_subnets                        = local.database_subnets
-  create_database_subnet_group            = local.create_database_subnet_group
-  create_database_subnet_route_table      = local.create_database_subnet_route_table
-  create_database_internet_gateway_route  = local.create_database_internet_gateway_route
+  database_subnets                       = local.database_subnets
+  create_database_subnet_group           = local.create_database_subnet_group
+  create_database_subnet_route_table     = local.create_database_subnet_route_table
+  create_database_internet_gateway_route = local.create_database_internet_gateway_route
 
   ### enable dhcp options
   enable_dhcp_options      = var.enable_dhcp_options
@@ -55,7 +55,7 @@ module "vpc" {
   tags = local.tags
 
   public_subnet_tags = {
-    subnet_type = "public"
+    subnet_type              = "public"
     "kubernetes.io/role/elb" = "1"
   }
 
@@ -63,7 +63,7 @@ module "vpc" {
 
 
   private_subnet_tags = {
-    subnet_type = "private"
+    subnet_type                       = "private"
     "kubernetes.io/role/internal-elb" = "1"
   }
 
@@ -284,14 +284,13 @@ data "aws_iam_policy_document" "flow_log_s3" {
 
 
 module "nat_instance" {
-  source                = "./modules/nat-instance"
-  count                 = (local.create_nat_instance ? 1 : 0)
+  source = "./modules/nat-instance"
+  count  = (local.create_nat_instance ? 1 : 0)
   # number_of_azs         = var.number_of_azs
-  name                  = local.name
-  aws_vpc_id            = module.vpc.vpc_id
-  nat_instance_type     = local.nat_instance_type
-  public_subnets_ids    = module.vpc.public_subnets
-  private_subnets_ids   = module.vpc.private_subnets
+  name               = local.name
+  aws_vpc_id         = module.vpc.vpc_id
+  nat_instance_type  = local.nat_instance_type
+  public_subnets_ids = module.vpc.public_subnets
   depends_on = [
     module.vpc
   ]

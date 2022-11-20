@@ -9,8 +9,8 @@ data "aws_availability_zones" "available" {}
 
 
 locals {
-  create_vpc  = var.create_vpc
-  name        = var.name
+  create_vpc = var.create_vpc
+  name       = var.name
   azs = [
     data.aws_availability_zones.available.names[0],
     data.aws_availability_zones.available.names[1],
@@ -28,7 +28,7 @@ locals {
 module "vpc" {
   source = "../../"
 
-  create_vpc = true
+  create_vpc = local.create_vpc
 
   name = local.name
   cidr = local.cidr

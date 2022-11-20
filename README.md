@@ -9,6 +9,7 @@ This module has the following functionality:
 - set up public, private and database subnet tiers
 - subnet tag  'subnet_type' eg subnet_type = private for filtering
 - subnet tags for EKS/kubernetes usage
+- low cost NAT instance VPC...$3.35/month using t4g.nano
 
 
 ## Usage
@@ -50,21 +51,22 @@ module "vpc" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.75 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.2.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >=3.2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.75 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.2.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_s3_vpc_flow_log"></a> [s3\_vpc\_flow\_log](#module\_s3\_vpc\_flow\_log) | terraform-aws-modules/s3-bucket/aws | 3.3.0 |
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.14.2 |
+| <a name="module_nat_instance"></a> [nat\_instance](#module\_nat\_instance) | ./modules/nat-instance | n/a |
+| <a name="module_s3_vpc_flow_log"></a> [s3\_vpc\_flow\_log](#module\_s3\_vpc\_flow\_log) | terraform-aws-modules/s3-bucket/aws | 3.6.0 |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | 3.18.1 |
 | <a name="module_vpc_endpoints"></a> [vpc\_endpoints](#module\_vpc\_endpoints) | terraform-aws-modules/vpc/aws//modules/vpc-endpoints | 3.14.2 |
 
 ## Resources
@@ -86,6 +88,7 @@ module "vpc" {
 | <a name="input_create_database_internet_gateway_route"></a> [create\_database\_internet\_gateway\_route](#input\_create\_database\_internet\_gateway\_route) | Controls if an internet gateway route for public database access should be created | `bool` | `false` | no |
 | <a name="input_create_database_subnet_group"></a> [create\_database\_subnet\_group](#input\_create\_database\_subnet\_group) | Controls if database subnet group should be created (n.b. database\_subnets must also be set) | `bool` | `true` | no |
 | <a name="input_create_database_subnet_route_table"></a> [create\_database\_subnet\_route\_table](#input\_create\_database\_subnet\_route\_table) | Controls if separate route table for database should be created | `bool` | `true` | no |
+| <a name="input_create_nat_instance"></a> [create\_nat\_instance](#input\_create\_nat\_instance) | Set to true if you want your private networks to reach the internet | `bool` | `false` | no |
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | Controls if VPC should be created (it affects almost all resources) | `bool` | `true` | no |
 | <a name="input_database_subnets"></a> [database\_subnets](#input\_database\_subnets) | List of database subnets inside the VPC | `list(string)` | `[]` | no |
 | <a name="input_dhcp_options_domain_name"></a> [dhcp\_options\_domain\_name](#input\_dhcp\_options\_domain\_name) | Specifies DNS name for DHCP options set (requires enable\_dhcp\_options set to true) | `string` | `""` | no |
@@ -97,6 +100,7 @@ module "vpc" {
 | <a name="input_enable_vpc_endpoints"></a> [enable\_vpc\_endpoints](#input\_enable\_vpc\_endpoints) | enable vpc endpoints | `map(any)` | <pre>{<br>  "dynamodb": true,<br>  "s3": true<br>}</pre> | no |
 | <a name="input_map_public_ip_on_launch"></a> [map\_public\_ip\_on\_launch](#input\_map\_public\_ip\_on\_launch) | Should be true if you want to auto-assign public IP on launch | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the vpc, to be used on all the resources as identifier | `string` | n/a | yes |
+| <a name="input_nat_instance_type"></a> [nat\_instance\_type](#input\_nat\_instance\_type) | Amazon linux instance type for NAT instance. The instance type affects the network performace (and cost). See the link in vpc.tf | `string` | `"t3.nano"` | no |
 | <a name="input_one_nat_gateway_per_az"></a> [one\_nat\_gateway\_per\_az](#input\_one\_nat\_gateway\_per\_az) | Should be true if you want only one NAT Gateway per availability zone. Requires `var.azs` to be set, and the number of `public_subnets` created to be greater than or equal to the number of availability zones specified in `var.azs`. | `bool` | `false` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | List of private subnets inside the VPC | `list(string)` | `[]` | no |
 | <a name="input_public_subnets"></a> [public\_subnets](#input\_public\_subnets) | List of public subnets inside the VPC | `list(string)` | `[]` | no |

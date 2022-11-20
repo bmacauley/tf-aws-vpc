@@ -4,8 +4,8 @@ provider "aws" {
 
 
 locals {
-  create_vpc  = var.create_vpc
-  name        = var.name
+  create_vpc = var.create_vpc
+  name       = var.name
   azs = [
     data.aws_availability_zones.available.names[0],
     data.aws_availability_zones.available.names[1],
@@ -20,8 +20,8 @@ locals {
   create_nat_instance = var.create_nat_instance
   nat_instance_type   = var.nat_instance_type
 
-  enable_dns_support    = var.enable_dns_support
-  enable_dns_hostnames  = var.enable_dns_hostnames
+  enable_dns_support   = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
 
   tags = {
     managed_by = "terraform"
@@ -31,7 +31,7 @@ locals {
 module "vpc" {
   source = "../../"
 
-  create_vpc = true
+  create_vpc = local.create_vpc
 
   name = local.name
   cidr = local.cidr
@@ -56,9 +56,14 @@ module "vpc" {
   single_nat_gateway     = true
   one_nat_gateway_per_az = false
 
-### nat instance config
-  create_nat_instance   = local.create_nat_instance
-  nat_instance_type     = local.nat_instance_type
+  ### nat instance config
+  create_nat_instance = local.create_nat_instance
+  nat_instance_type   = local.nat_instance_type
+
+
+  ## DNS
+  enable_dns_support   = local.enable_dns_support
+  enable_dns_hostnames = local.enable_dns_hostnames
 
 
   enable_vpc_endpoints = {
@@ -88,12 +93,12 @@ module "ec2_instance" {
   vpc_security_group_ids = [aws_security_group.ec2_test_instance.id]
   subnet_id              = element(module.vpc.private_subnets, 0)
 
-  iam_instance_profile   = aws_iam_instance_profile.ec2_test_instance.name
+  iam_instance_profile = aws_iam_instance_profile.ec2_test_instance.name
 
-  user_data              = file("${path.module}/user-data.sh")
+  user_data = file("${path.module}/user-data.sh")
 
   tags = {
-    managed_by   = "terraform"
+    managed_by = "terraform"
   }
 
   depends_on = [
@@ -110,11 +115,11 @@ resource "aws_iam_instance_profile" "ec2_test_instance" {
 resource "aws_iam_role" "ec2_test_instance" {
   name = "ec2-test-instance-ssm-agent-role"
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": {
-      "Effect": "Allow",
-      "Principal": {"Service": "ec2.amazonaws.com"},
-      "Action": "sts:AssumeRole"
+    "Version" : "2012-10-17",
+    "Statement" : {
+      "Effect" : "Allow",
+      "Principal" : { "Service" : "ec2.amazonaws.com" },
+      "Action" : "sts:AssumeRole"
     }
   })
 }
@@ -126,24 +131,24 @@ resource "aws_iam_role_policy_attachment" "ec2_test_instance" {
 
 
 resource "aws_security_group" "ec2_test_instance" {
-    vpc_id      = module.vpc.vpc_id
-    name        = "ec2-test-instance-sg"
+  vpc_id = module.vpc.vpc_id
+  name   = "ec2-test-instance-sg"
 
-    ingress {
-        from_port       = 0
-        to_port         = 0
-        protocol        = "all"
-        cidr_blocks     = ["0.0.0.0/0"]
-        prefix_list_ids = []
-    }
+  ingress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "all"
+    cidr_blocks     = ["0.0.0.0/0"]
+    prefix_list_ids = []
+  }
 
-    egress {
-        from_port       = 0
-        to_port         = 0
-        protocol        = "all"
-        cidr_blocks     = ["0.0.0.0/0"]
-    }
-    tags = {
-        Name = "ec2-test-instance-sg"
-    }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "all"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "ec2-test-instance-sg"
+  }
 }

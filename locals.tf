@@ -47,8 +47,8 @@ locals {
   one_nat_gateway_per_az = var.one_nat_gateway_per_az
 
   ### nat gateway config
-  create_nat_instance     = var.create_nat_instance
-  nat_instance_type       = var.nat_instance_type
+  create_nat_instance = var.create_nat_instance
+  nat_instance_type   = var.nat_instance_type
 
   ### enable endpoints
   enable_vpc_endpoints_defaults = {

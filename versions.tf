@@ -18,6 +18,6 @@ terraform {
 }
 
 provider "aws" {
-  region  = "eu-west-1"
+  region              = "eu-west-1"
   shared_config_files = ["$HOME/.aws/config"]
 }

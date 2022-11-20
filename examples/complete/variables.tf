@@ -38,15 +38,3 @@ variable "database_subnets" {
   type        = list(string)
   default     = []
 }
-
-variable "tags" {
-  description = "Common set of tags."
-  type        = map(string)
-  default     = {}
-}
-
- variable "create_nat_instance" {
-     description = "Set to true if you want your private networks to reach the internet"
-     type = bool
-     default = false
- }

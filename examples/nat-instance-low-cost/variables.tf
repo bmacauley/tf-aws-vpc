@@ -39,11 +39,6 @@ variable "database_subnets" {
   default     = []
 }
 
-variable "tags" {
-  description = "Common set of tags."
-  type        = map(string)
-  default     = {}
-}
 
 variable "enable_nat_gateway" {
   description = "Should be true if you want to provision NAT Gateways for each of your private networks"
@@ -51,19 +46,19 @@ variable "enable_nat_gateway" {
   default     = true
 }
 
- variable "create_nat_instance" {
-     description = "Set to true if you want your private networks to reach the internet"
-     type = bool
-     default = false
- }
+variable "create_nat_instance" {
+  description = "Set to true if you want your private networks to reach the internet"
+  type        = bool
+  default     = false
+}
 
- variable "nat_instance_type" {
-     description = "Amazon linux instance type for NAT instance. The instance type affects the network performace (and cost). See the link in vpc.tf"
-     type        = string
-     default     = "t4g.nano"
- }
+variable "nat_instance_type" {
+  description = "Amazon linux instance type for NAT instance. The instance type affects the network performace (and cost). See the link in vpc.tf"
+  type        = string
+  default     = "t4g.nano"
+}
 
- variable "enable_dns_hostnames" {
+variable "enable_dns_hostnames" {
   description = "Should be true to enable DNS hostnames in the VPC"
   type        = bool
   default     = false
