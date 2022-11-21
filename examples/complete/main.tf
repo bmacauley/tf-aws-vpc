@@ -16,10 +16,10 @@ locals {
     data.aws_availability_zones.available.names[1],
     data.aws_availability_zones.available.names[2]
   ]
-  cidr             = var.cidr
-  public_subnets   = var.public_subnets
-  private_subnets  = var.private_subnets
-  database_subnets = var.database_subnets
+  cidr               = var.cidr
+  public_subnets     = var.public_subnets
+  private_subnets    = var.private_subnets
+  database_subnets   = var.database_subnets
   enable_nat_gateway = var.enable_nat_gateway
   tags = {
     managed_by = "terraform"

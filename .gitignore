@@ -7,3 +7,4 @@
 .terragrunt-cache/
 *.tfplan
 .terraform.lock.hcl
+.infracost
