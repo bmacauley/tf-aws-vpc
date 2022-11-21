@@ -38,3 +38,9 @@ variable "database_subnets" {
   type        = list(string)
   default     = []
 }
+
+variable "enable_nat_gateway" {
+  description = "Should be true if you want to provision NAT Gateways for each of your private networks"
+  type        = bool
+  default     = true
+}

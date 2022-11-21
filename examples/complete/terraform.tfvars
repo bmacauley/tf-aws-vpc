@@ -1,4 +1,5 @@
 create_vpc       = true
+enable_nat_gateway = true
 name             = "vpc-complete-example"
 cidr             = "10.10.0.0/16"
 public_subnets   = ["10.10.11.0/24", "10.10.12.0/24", "10.10.13.0/24"]
