@@ -26,6 +26,11 @@ init: ## install tools
 	asdf install
 
 
+
+
+
+
+
 pre-commit-check: ## run all pre-commit checks
 	cd . && \
 	terraform init && \
@@ -34,4 +39,5 @@ pre-commit-check: ## run all pre-commit checks
 clean: ## clean up cache directories
 	find . -type d -name '.terragrunt-cache' | xargs rm -rf && \
 	find . -type d -name '.terraform' | xargs rm -rf && \
-	find . -type d -name '.terraform.lock.hcl' | xargs rm -rf
+	find . -type d -name '.terraform.lock.hcl' | xargs rm -rf && \
+	find . -type d -name '.infracost' | xargs rm -rf
